@@ -5,7 +5,15 @@ from config import Config
 import pymysql
 import os
 from flask_cors import CORS
+import json
+from datetime import datetime,date
 
+# Add this new class for JSON encoding
+class CustomJSONEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, (date, datetime)):
+            return obj.isoformat()  # Convert date to a string in ISO format
+        return super().default(obj)
 app = Flask(__name__)
 CORS(app)
 app.config.from_object(Config)
@@ -81,40 +89,38 @@ def save_summary_to_file(account_id, account_info, related_data):
         folder_path = os.path.join(os.getcwd(), 'accountData')
         os.makedirs(folder_path, exist_ok=True)
         
-        file_name = f"{account_id}_data.txt"
+        file_name = f"{account_id}_data.json"
         file_path = os.path.join(folder_path, file_name)
         
-        # Delete the file if it exists
-        if os.path.exists(file_path):
-            print(f"Deleting existing file: {file_path}")
-            os.remove(file_path)
-        
-        summary = []
+        # Prepare the summary dictionary
+        summary = {}
 
-        # Write the account info
-        summary.append(f"Account Information:\n")
-        summary.append(f"ID: {account_info['id']}\n")
-        summary.append(f"Name: {account_info['name']}\n")
-        summary.append(f"Email: {account_info['email']}\n\n")
+        # Only include non-empty account information
+        if account_info:
+            non_empty_account_info = {k: v for k, v in account_info.items() if v}
+            if non_empty_account_info:
+                summary["Account Information"] = non_empty_account_info
+
+        # Only include non-empty related data
+        non_empty_related_data = {table: rows for table, rows in related_data.items() if rows}
+        if non_empty_related_data:
+            summary["Related Data"] = non_empty_related_data
+
+        # If both account info and related data are empty, don't create the file
+        if not summary:
+            print(f"No data to save for account_id: {account_id}. Skipping file creation.")
+            return None
         
-        # Write related data
-        for table, rows in related_data.items():
-            if rows:
-                summary.append(f"Data from {table}:\n")
-                for row in rows:
-                    summary.append(f"{row}\n")
-                summary.append("\n")
-        
-        print(f"Writing summary to file: {file_path}")
+        print(f"Writing summary to JSON file: {file_path}")
+        # Save the summary as a JSON file using the custom encoder
         with open(file_path, 'w') as f:
-            f.writelines(summary)
+            json.dump(summary, f, indent=4, cls=CustomJSONEncoder)
         
-        print(f"Summary file created successfully in accountData folder")
+        print(f"Summary JSON file created successfully in accountData folder")
         return file_name
     except Exception as e:
         print(f"Error in save_summary_to_file: {str(e)}")
         raise
-
 # API route to fetch account data and related data
 @app.route('/fetch-account-data', methods=['POST'])
 def fetch_account_data():
