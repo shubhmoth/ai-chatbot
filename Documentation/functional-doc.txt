@@ -1,0 +1,51 @@
+Key Features
+
+	1.	Embeddable Chat Interface:
+	•	A chat icon that can be embedded on any web page.
+	•	On clicking, it expands into a chat window, allowing users to interact with the AI-powered chatbot.
+	2.	Natural Language Processing (NLP):
+	•	Use of OpenAI’s API to interpret and respond to user queries about financial portfolios, account metrics, and investment distributions.
+	•	Users can ask complex questions without needing to understand SQL or any other technical language.
+	3.	Database Integration:
+	•	The chatbot retrieves information from a MySQL database that contains customer portfolio details.
+	•	It supports various financial queries, including portfolio values, custodian accounts, time-based returns, and geographic distribution.
+	4.	Query Handling:
+The system can handle:
+	•	Portfolio net/gross values.
+	•	Time-weighted return calculations.
+	•	Date-based holding information.
+	•	Geographic distribution and multi-account valuations.
+	5.	Result Presentation:
+	•	The chatbot will return results in a clean, user-friendly format (text, tables, and graphical representations where necessary).
+
+Use Cases
+
+	1.	Portfolio Analysis:
+	•	User asks: “What is the gross value of the portfolio for account ABC-123?”
+	•	Chatbot response: “The gross portfolio value for account ABC-123 is $120,000.”
+	2.	Geographic Distribution:
+	•	User asks: “What is the geographic distribution of my portfolio?”
+	•	Chatbot response: A table or pie chart showing the percentage of investments in different regions (e.g., North America, Europe, Asia).
+	3.	Time-Based Analysis:
+	•	User asks: “Generate a graph of portfolio value over the past six months.”
+	•	Chatbot response: A line graph showing the portfolio’s value trends over time.
+	4.	Time-Weighted Return (TWR):
+	•	User asks: “What is the TWR for account XYZ over the last year?”
+	•	Chatbot response: “The TWR for account XYZ is 8.3% over the last year.”
+
+Security
+
+	1.	User Authentication:
+	•	Users must authenticate themselves before interacting with the chatbot using OAuth or another secure login mechanism.
+	2.	Data Encryption:
+	•	All sensitive data, both at rest and in transit, will be encrypted using industry-standard encryption methods.
+	3.	Access Control:
+	•	Only authorized users can access specific account information.
+
+Sample Queries
+
+	•	“What is the minimum holding date for account 123?”
+	•	“Show me the portfolio gross value for John Doe’s account.”
+	•	“What is the geographic distribution of my investments?”
+	•	“Calculate the TWR for my account over the past year.”
+	•	“Generate a graph of portfolio value versus date for the last quarter.”
