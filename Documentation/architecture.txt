@@ -1,0 +1,62 @@
+                                                                                   
+                            ┌──────────────────────────────────────────────────────────────────────────────────┐
+                            │                                 Frontend (Chat UI)                                 │
+                            │            (HTML, CSS, JS, Bootstrap)                                             │
+                            │ - User sends account ID and queries                                                │
+                            └──────────────────────────────────────────────────────────────────────────────────┘
+                                                            │
+                                                            ▼
+                            ┌──────────────────────────────────────────────────────────────────────────────────┐
+                            │                                   API Layer (Flask)                                │
+                            │ - Routes user requests                                                           │
+                            │ - Manages queries and data aggregation                                            │
+                            │ - Interacts with multiple services and components                                 │
+                            └──────────────────────────────────────────────────────────────────────────────────┘
+                                                           │  │  │  │  │
+                      ┌───────────────────────────────────┘  │  │  │  │  └─────────────────────────────────────┐
+                      ▼                                      ▼  ▼  ▼  ▼                                        ▼
+    ┌──────────────────────────────┐        ┌───────────────────────────────┐        ┌───────────────────────────────┐        ┌─────────────────────────────┐
+    │  NLP Engine (OpenAI API)      │        │ Data Aggregation Service (ETL)│        │  Product Database (MySQL)      │        │     Redis Cache             │
+    │  - Natural Language Queries   │        │  - Celery Task Queues         │        │  - Stores aggregated data      │        │  - Caching frequent queries │
+    │  - SQL Generation             │        │  - ETL: Extract, Transform,   │        │  - Holds summaries for fast    │        │  - Low-latency data storage │
+    │  - Integrates with Flask API  │        │    Load from source database  │        │    queries and responses       │        │  - Cache invalidation logic │
+    │  - Generates SQL based on     │        │  - Handles multiple sources   │        │  - Portfolio, transaction,     │        │  - Handles query load       │
+    │    user inputs                │        │  - Interacts with product DB  │        │    account, and summary tables │        │                             │
+    └──────────────────────────────┘        └───────────────────────────────┘        └───────────────────────────────┘        └─────────────────────────────┘
+                                                           │
+                                                           ▼
+                                          ┌───────────────────────────────────────────────────────────────────────┐
+                                          │  Source Database (External)                                             │
+                                          │  - Transaction Table                                                    │
+                                          │  - Portfolio Table                                                      │
+                                          │  - Holdings, Custodian Data                                              │
+                                          │  - Provided by website, raw financial data                              │
+                                          └───────────────────────────────────────────────────────────────────────┘
+                                                           │
+                                                           ▼
+                              ┌────────────────────────────────────────────────────────────────────────────────┐
+                              │         Authentication & Security Layer (OAuth 2.0, JWT)                        │
+                              │ - User authentication and access control                                         │
+                              │ - Role-based access                                                              │
+                              │ - TLS encryption for data in transit                                             │
+                              │ - API key management for OpenAI and external systems                             │
+                              │ - Data encryption at rest for sensitive data in DB                               │
+                              └────────────────────────────────────────────────────────────────────────────────┘
+                                                            │
+                                                            ▼
+                              ┌────────────────────────────────────────────────────────────────────────────────┐
+                              │            Monitoring, Logging, and Error Handling (Prometheus, Grafana)         │
+                              │  - Logs all API requests, user actions                                           │
+                              │  - Monitors ETL pipeline health                                                  │
+                              │  - Alerts on any ETL failures or database issues                                 │
+                              │  - Response time metrics for NLP engine and Flask API                            │
+                              │  - Real-time system metrics and alerting                                         │
+                              └────────────────────────────────────────────────────────────────────────────────┘
+                                                            │
+                                                            ▼
+                            ┌────────────────────────────────────────────────────────────────────────────────────┐
+                            │                        Message Queue (RabbitMQ / Redis Pub-Sub)                     │
+                            │ - Facilitates asynchronous processing for heavy tasks (ETL, data aggregation)       │
+                            │ - Ensures non-blocking operations for user queries and summarization tasks          │
+                            │ - Integrates with Celery to run background jobs (data extraction, cleaning, etc.)   │
+                            └────────────────────────────────────────────────────────────────────────────────────┘
