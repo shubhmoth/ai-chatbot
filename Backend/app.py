@@ -4,10 +4,10 @@ from flask_sqlalchemy import SQLAlchemy
 from config import Config
 import pymysql
 import os
-#main.py
-from accountData.jsonFormatter import convert_account_info_to_json
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 app.config.from_object(Config)
 db = SQLAlchemy(app)
 
@@ -120,11 +120,21 @@ def save_summary_to_file(account_id, account_info, related_data):
 def fetch_account_data():
     print("Entering fetch_account_data")
     try:
+        print("Request Headers:", request.headers)
+        print("Request Data:", request.data)  # Print the raw request data
+        print("Is JSON?", request.is_json)
         account_id = request.json.get('account_id')
         
         if not account_id:
             print("No account_id provided in request")
             return jsonify({"error": "No account_id provided"}), 400
+        
+        # Convert account_id to integer
+        try:
+            account_id = int(account_id)
+        except ValueError:
+            print(f"Invalid account_id format: {account_id}")
+            return jsonify({"error": "Invalid account_id format. Must be a number."}), 400
         
         print(f"Fetching data for account_id: {account_id}")
         
@@ -160,7 +170,6 @@ def fetch_account_data():
         
         print("Saving summary to file")
         file_name = save_summary_to_file(account_id, account_info, related_data)
-        convert_account_info_to_json(file_name, file_name)
         print("Committing database changes")
         connection.commit()
 
