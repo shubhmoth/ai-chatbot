@@ -1,0 +1,64 @@
+Architecture Overview
+
+	•	Frontend:
+	•	HTML, CSS, Bootstrap: Used for creating the embeddable chat icon and responsive user interface.
+	•	Backend:
+	•	Python, Flask: Flask will handle API requests, perform NLP tasks, and connect to the MySQL database.
+	•	Database:
+	•	MySQL: Stores all financial and customer portfolio data.
+	•	LLM (Large Language Model):
+	•	OpenAI’s API: Used to interpret user queries and generate appropriate responses.
+
+3.2 System Components
+
+	1.	Embeddable Chat Interface
+	•	Frontend:
+	•	A floating icon that expands into a chat window upon click.
+	•	Responsive design ensures compatibility with desktop, mobile, and tablet devices.
+	•	Chat interface communicates with the backend using AJAX requests to fetch responses.
+	2.	Backend (Flask)
+	•	NLP Handler:
+	•	Flask will receive the natural language query from the user via an API call.
+	•	The query is sent to OpenAI’s API, which interprets the query and generates a structured response.
+	•	Database Connector:
+	•	Flask will interact with MySQL to retrieve or calculate the necessary data based on the interpreted query.
+	•	Response Formatter:
+	•	Data retrieved from the database will be processed and sent back to the frontend in a readable format (text, tables, or charts).
+	3.	Database (MySQL)
+	•	Schema:
+The database will contain several key tables:
+	•	Users: Stores user credentials and access controls.
+	•	Portfolios: Stores portfolio-level data (account names, net values, gross values).
+	•	Holdings: Stores holding information (dates, values, regions).
+	•	Transactions: Stores financial transactions to calculate Time-Weighted Returns (TWR).
+	•	Queries:
+Example queries the system must handle:
+	•	Calculate the net/gross portfolio values.
+	•	Retrieve the minimum and maximum holding dates for an account.
+	•	Aggregate and present a portfolio’s geographic distribution.
+	4.	API Design
+	•	Endpoints:
+	•	/api/query: Receives user queries and returns formatted results.
+	•	/api/authenticate: Handles user authentication using OAuth or token-based security.
+	•	/api/portfolio/{id}: Fetches portfolio data for a specific user.
+	5.	LLM (OpenAI)
+	•	NLP Query Interpretation:
+OpenAI’s API will be used to convert user queries into database actions. The interpreted query will then be sent to Flask, which in turn retrieves data from the MySQL database.
+	•	Response Generation:
+The LLM generates human-readable responses, including tables or charts if necessary. For example, a time-based query would result in a graph.
+
+3.3 Security Considerations
+
+	1.	Authentication
+	•	OAuth will be used to securely log users in and verify their identity.
+	2.	Data Encryption
+	•	All sensitive information will be encrypted using TLS in transit and AES encryption for storage in the database.
+	3.	Access Control
+	•	Users will only be able to access data that belongs to them. This will be enforced through role-based access controls (RBAC).
+
+3.4 Performance Considerations
+
+	1.	Latency
+	•	Target latency is under 1 second for query processing. Use of caching for frequently requested data.
+	2.	Scalability
+	•	The backend system (Flask) and MySQL database will be designed to handle large amounts of concurrent requests, leveraging load balancers and database replication if necessary.
