@@ -13,20 +13,59 @@ function toggleChat() {
     }
 }
 
+async function fetchAccountData(accountId) {
+    // Prepare the request data
+    const data = {
+      account_id: accountId,
+    };
+    // Set content type header to application/json
+    const headers = new Headers({
+      'Content-Type': 'application/json'
+    });
+    try {
+      // Make the POST request
+      const response = await fetch('http://127.0.0.1:5000/fetch-account-data', {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(data),
+      });
+      // Check for successful response
+      if (!response.ok) {
+        throw new Error(`API request failed with status: ${response.status}`);
+      }
+      // Parse the response data
+      const jsonData = await response.json();
+      // Handle the response data
+      console.log("Response:", jsonData);
+      // Access specific data like file_name or message
+      const fileName = jsonData.file_name;
+      const message = jsonData.message;
+  
+      console.log("File Name:", fileName);
+      console.log("Message:", message);
+  
+      // You can further process the data (e.g., display it on the page) here
+    } catch (error) {
+      console.error("Error fetching account data:", error);
+    }
+}
 
 // Fetch response from the backend
 async function getBotResponse(userInput) {
-    const response = await fetch('http://localhost:5000/api/chat', { // Update the URL if needed
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ query: userInput })
-    });
+    const accountId = 10;
+    fetchAccountData(accountId);
 
-    const data = await response.json();
-    console.log('Bot Response:', data);
-    return data.reply; // Extract the response
+    // const response = await fetch('http://localhost:5000/api/chat', { // Update the URL if needed
+    //     method: 'POST',
+    //     headers: {
+    //         'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify({ query: userInput })
+    // });
+
+    // const data = await response.json();
+    // console.log('Bot Response:', data);
+    // return data.reply; // Extract the response
 }
 
 
