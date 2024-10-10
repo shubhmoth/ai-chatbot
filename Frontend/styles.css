@@ -1,0 +1,222 @@
+/* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    /* Gradient Background */
+    background: linear-gradient(to bottom right, #5fbaff, #08406f); /* Customize your colors here */
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+/* Chat Icon */
+#chat-icon {
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+    background-color: #fbc02d;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    z-index: 1000;
+    animation: float 2s ease-in-out infinite; /* Floating Animation */
+}
+
+#chat-icon img {
+    width: 35px;
+    height: 35px;
+}
+
+#floating-text {
+    position: absolute;
+    bottom: 80px; /* Adjust position relative to chat icon */
+    right: 50%;
+    transform: translateX(50%);
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 5px 10px;
+    border-radius: 5px;
+    white-space: nowrap;
+    font-size: 12px;
+    animation: float-text 2s ease-in-out infinite; /* Floating Text Animation */
+}
+
+/* Floating Animation */
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Floating Text Animation */
+@keyframes float-text {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+#chat-icon:hover {
+    transform: scale(1.1);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Chat Box */
+#chat-box {
+    position: fixed;
+    bottom: 100px;
+    right: 30px;
+    width: 320px;
+    height: 500px;
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transform: translateY(100%);
+    opacity: 0;
+    transition: all 0.4s ease;
+    z-index: 100;
+}
+
+#chat-box.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+#chat-box.hide {
+    transform: translateY(100%);
+    opacity: 0;
+}
+
+/* Chat Header */
+#chat-header {
+    background-color: #2196f3;
+    color: white;
+    text-align: center;
+    padding: 15px;
+    font-weight: 500;
+    font-size: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#close-chat {
+    cursor: pointer;
+    font-size: 20px;
+    padding: 0 15px;
+}
+
+/* Chat Body */
+#chat-body {
+    flex-grow: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    background-color: #f1f1f1;
+    border-bottom: 1px solid #ddd;
+    overflow-y: auto;
+}
+
+#chat-messages {
+    flex-grow: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+#loader {
+    text-align: center;
+    padding: 10px;
+    font-size: 14px;
+    color: #888;
+}
+
+/* Chat Input and Button */
+#chat-send {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #ffffff;
+    border-top: 1px solid #ddd;
+}
+
+#user-input {
+    width: calc(100% - 60px);
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 30px;
+    outline: none;
+    transition: box-shadow 0.2s ease-in-out;
+}
+
+#user-input:focus {
+    box-shadow: 0 0 8px rgba(33, 150, 243, 0.5);
+}
+
+button {
+    padding: 10px 15px;
+    background-color: #2196f3;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #1976d2;
+}
+
+button:active {
+    background-color: #1565c0;
+}
+
+/* Tooltip for chat icon */
+#chat-icon[title]:hover:before {
+    content: attr(title);
+    position: absolute;
+    bottom: 70px;
+    right: 50%;
+    transform: translateX(50%);
+    background-color: #333;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    white-space: nowrap;
+    font-size: 12px;
+}
+
+#chat-icon[title]:hover:after {
+    content: '';
+    position: absolute;
+    bottom: 60px;
+    right: 50%;
+    transform: translateX(50%);
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #333;
+}

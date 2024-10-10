@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Embeddable Chatbot</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Chat Icon and Floating Text -->
+    <div id="chat-icon" onclick="toggleChat()" title="Chat with us">
+        <img src="chat.png" alt="Chat" />
+        <span id="floating-text">Click here to chat</span>
+    </div>
+
+    <!-- Chat Box -->
+    <div id="chat-box" class="hide">
+        <div id="chat-header">
+            <span>We're here to help!</span>
+            <span id="close-chat" onclick="toggleChat()">✕</span>
+        </div>
+        <div id="chat-body">
+            <div id="chat-messages"></div>
+            <div id="loader" style="display: none;">Generating...</div>
+        </div>
+        <div id="chat-send">
+            <input type="text" id="user-input" placeholder="Ask a question..."/>
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <script src="scripts.js"></script> 
+</body>
+</html>
